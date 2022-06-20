@@ -45,6 +45,7 @@ const getTweets = async (req, res) => {
                     avatarUrl: '$user.avatarUrl',
                     name: '$user.name',
                     verified: '$user.verified',
+                    images: 1,
                     message: 1,
                     likes: '$likes_info.userId',
                     retweets: '$retweets_info.userId',
