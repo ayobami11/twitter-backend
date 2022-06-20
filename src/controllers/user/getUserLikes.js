@@ -71,6 +71,7 @@ const getUserLikes = async (req, res) => {
                     avatarUrl: '$tweet.user.avatarUrl',
                     verified: '$tweet.user.verified',
                     message: '$tweet.message',
+                    images: '$tweet.images',
                     likes: '$tweet.likes.userId',
                     retweets: '$tweet.retweets.userId',
                     comments: '$tweet.comments._id',
