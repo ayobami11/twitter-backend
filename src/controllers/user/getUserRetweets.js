@@ -77,6 +77,11 @@ const getUserRetweets = async (req, res) => {
                     comments: '$tweet.comments._id',
                     createdAt: '$tweet.createdAt'
                 }
+            },
+            {
+                $sort: {
+                    createdAt: -1
+                }
             }
         ]);
 

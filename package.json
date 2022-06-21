@@ -1,5 +1,5 @@
 {
-  "name": "twitter-remix-backend",
+  "name": "twitter-backend",
   "version": "1.0.0",
   "description": "Backend for twitter clone",
   "main": "app.js",
