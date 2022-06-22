@@ -8,8 +8,17 @@ const logout = async (req, res) => {
 
         await User.findByIdAndUpdate(userId, { accessToken: '', refreshToken: '' });
 
-        res.clearCookie('accessToken', { secure: NODE_ENV !== 'development', sameSite: 'None' });
-        res.clearCookie('refreshToken', { secure: NODE_ENV !== 'development', sameSite: 'None' });
+        res.clearCookie('accessToken', {
+            httpOnly: true,
+            secure: NODE_ENV !== 'development',
+            sameSite: 'None'
+        });
+        
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: NODE_ENV !== 'development',
+            sameSite: 'None'
+        });
 
         return res.status(200).json({ success: true, message: 'Logout successful.' });
     } catch (error) {
