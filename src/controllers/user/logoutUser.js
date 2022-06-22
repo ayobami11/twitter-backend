@@ -6,8 +6,8 @@ const logout = async (req, res) => {
 
         await User.findByIdAndUpdate(userId, { accessToken: '', refreshToken: '' });
 
-        res.clearCookie('accessToken');
-        res.clearCookie('refreshToken');
+        res.clearCookie('accessToken', { sameSite: 'None' });
+        res.clearCookie('refreshToken', { sameSite: 'None' });
 
         return res.status(200).json({ success: true, message: 'Logout successful.' });
     } catch (error) {
