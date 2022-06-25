@@ -4,24 +4,21 @@ const User = require('../models/user');
 
 const generateAccessToken = async (req, res, next) => {
     try {
-        console.log(req.cookies.accessToken);
-        console.log(req.cookies.refreshToken);
 
-        if (req.cookies.accessToken) return next();
+        const accessTokenCookie = req.cookies?.accessToken || req.cookies?.['accessToken-legacy'];
+        const refreshTokenCookie = req.cookies?.refreshToken || req.cookies?.['refreshToken-legacy'];
 
-        const { refreshToken } = req.cookies;
+        if (accessTokenCookie) return next();
 
         const { REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
 
-        if (!refreshToken) return res.status(401).json({ success: false, message: 'No refresh token provided.' });
+        if (!refreshTokenCookie) return res.status(401).json({ success: false, message: 'No refresh token provided.' });
 
-        const decodedRefreshToken = await jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+        const decodedRefreshToken = await jwt.verify(refreshTokenCookie, REFRESH_TOKEN_SECRET);
 
         const user = await User.findById(decodedRefreshToken.userId).exec();
 
         if (!user._id) return res.status(401).json({ success: false, message: 'User not found.' });
-
-        console.log(user);
 
         await user.generateAccessToken();
 
@@ -29,6 +26,15 @@ const generateAccessToken = async (req, res, next) => {
         res.locals.accessToken = user.accessToken;
 
         res.cookie('accessToken', user.accessToken, {
+            secure: NODE_ENV !== 'development',
+            httpOnly: true,
+            sameSite: 'none',
+            // expires in 15 minutes
+            maxAge: 1000 * 60 * 15
+        });
+
+        // to provide support for incompatible browsers without samesite=none
+        res.cookie('accessToken-legacy', user.accessToken, {
             secure: NODE_ENV !== 'development',
             httpOnly: true,
             // expires in 15 minutes

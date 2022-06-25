@@ -11,13 +11,24 @@ const logout = async (req, res) => {
         res.clearCookie('accessToken', {
             httpOnly: true,
             secure: NODE_ENV !== 'development',
-            sameSite: 'None'
+            sameSite: 'none'
         });
-        
+
         res.clearCookie('refreshToken', {
             httpOnly: true,
             secure: NODE_ENV !== 'development',
-            sameSite: 'None'
+            sameSite: 'none'
+        });
+
+        // removes backup cookies for incompatible browsers
+        res.clearCookie('accessToken-legacy', {
+            httpOnly: true,
+            secure: NODE_ENV !== 'development',
+        });
+
+        res.clearCookie('refreshToken-legacy', {
+            httpOnly: true,
+            secure: NODE_ENV !== 'development',
         });
 
         return res.status(200).json({ success: true, message: 'Logout successful.' });

@@ -32,11 +32,10 @@ const login = async (req, res) => {
         await user.generateAccessToken();
         await user.generateRefreshToken();
 
-
         res.cookie('accessToken', user.accessToken, {
             secure: NODE_ENV !== 'development',
             httpOnly: true,
-            sameSite: 'None',
+            sameSite: 'none',
             // expires in 15 minutes
             maxAge: 1000 * 60 * 15
         });
@@ -44,7 +43,22 @@ const login = async (req, res) => {
         res.cookie('refreshToken', user.refreshToken, {
             secure: NODE_ENV !== 'development',
             httpOnly: true,
-            sameSite: 'None',
+            sameSite: 'none',
+            // expires in 7 days
+            maxAge: 1000 * 60 * 60 * 24 * 7
+        });
+
+        // to provide support for incompatible browsers without samesite=none
+        res.cookie('accessToken-legacy', user.accessToken, {
+            secure: NODE_ENV !== 'development',
+            httpOnly: true,
+            // expires in 15 minutes
+            maxAge: 1000 * 60 * 15
+        });
+
+        res.cookie('refreshToken-legacy', user.refreshToken, {
+            secure: NODE_ENV !== 'development',
+            httpOnly: true,
             // expires in 7 days
             maxAge: 1000 * 60 * 60 * 24 * 7
         });
