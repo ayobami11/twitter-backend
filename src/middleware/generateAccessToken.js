@@ -5,10 +5,12 @@ const User = require('../models/user');
 const generateAccessToken = async (req, res, next) => {
     try {
 
+        const { authorization } = req.headers;
+
         const accessTokenCookie = req.cookies?.accessToken || req.cookies?.['accessToken-legacy'];
         const refreshTokenCookie = req.cookies?.refreshToken || req.cookies?.['refreshToken-legacy'];
 
-        if (accessTokenCookie) return next();
+        if (accessTokenCookie || authorization?.split(' ')[1]) return next();
 
         const { REFRESH_TOKEN_SECRET, NODE_ENV } = process.env;
 
