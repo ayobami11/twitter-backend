@@ -12,7 +12,7 @@ const unfollowUser = async (req, res) => {
         if (!followingUser?._id) return res.status(404).json({ success: false, message: 'User not found.' })
 
         // prevents the user from unfollowing their own account
-        if (followingUser._id === followerId) return res.status(403).json({ success: false, message: 'You cannot unfollow your own account.' });
+        if (String(followingUser._id) === String(followerId)) return res.status(403).json({ success: false, message: 'You cannot unfollow your own account.' });
 
         // unfollows the target account if followed previously
         const follower = await Follower.findOneAndDelete({

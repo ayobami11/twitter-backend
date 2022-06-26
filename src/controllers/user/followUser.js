@@ -13,7 +13,7 @@ const followUser = async (req, res) => {
         if (!followingUser?._id) return res.status(404).json({ success: false, message: 'User not found.' })
 
         // prevents the user from following their own account
-        if (followingUser._id === followerId) return res.status(403).json({ success: false, message: 'You cannot follow your own account.' });
+        if (String(followingUser._id) === String(followerId)) return res.status(403).json({ success: false, message: 'You cannot follow your own account.' });
 
         // checks if the user is already following the target account
         const follower = await Follower.findOne({ followerId, followingId: followingUser._id }, '_id');
