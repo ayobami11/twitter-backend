@@ -56,6 +56,7 @@ const getTweetDetails = async (req, res) => {
                                 message: 1,
                                 name: '$user.name',
                                 handle: '$user.handle',
+                                verified: '$user.verified',
                                 avatarUrl: '$user.avatarUrl',
                                 createdAt: 1
                             }

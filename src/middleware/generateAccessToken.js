@@ -20,7 +20,7 @@ const generateAccessToken = async (req, res, next) => {
 
         const user = await User.findById(decodedRefreshToken.userId).exec();
 
-        if (!user._id) return res.status(401).json({ success: false, message: 'User not found.' });
+        if (!user?._id) return res.status(404).json({ success: false, message: 'User not found.' });
 
         await user.generateAccessToken();
 
