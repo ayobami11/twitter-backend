@@ -18,6 +18,8 @@ const createComment = require('../controllers/tweet/createComment');
 
 const createTweetWithImage = require('../controllers/tweet/createTweetWithImage');
 
+const deleteTweet = require('../controllers/tweet/deleteTweet');
+
 const router = express.Router();
 
 router.get('/', getTweets);
@@ -32,5 +34,7 @@ router.delete('/:tweetId/undo-retweet', undoRetweet);
 
 router.get('/:tweetId/comments', getComments);
 router.post('/:tweetId/comment', createComment);
+
+router.delete('/:tweetId/delete', deleteTweet);
 
 module.exports = router;

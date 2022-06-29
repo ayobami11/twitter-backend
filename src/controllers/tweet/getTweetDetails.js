@@ -67,6 +67,7 @@ const getTweetDetails = async (req, res) => {
             },
             {
                 $project: {
+                    userId: 1,
                     handle: '$user.handle',
                     avatarUrl: '$user.avatarUrl',
                     name: '$user.name',
