@@ -55,6 +55,7 @@ const getTweets = async (req, res) => {
             },
             {
                 $project: {
+                    userId: 1,
                     name: '$user.name',
                     handle: '$user.handle',
                     avatarUrl: '$user.avatarUrl',

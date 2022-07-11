@@ -66,6 +66,7 @@ const getUserLikes = async (req, res) => {
             {
                 $project: {
                     tweetId: 1,
+                    userId: '$tweet.user._id',
                     name: '$tweet.user.name',
                     handle: '$tweet.user.handle',
                     avatarUrl: '$tweet.user.avatarUrl',
